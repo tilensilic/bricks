@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bricks - Tilen Silič</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <div class="game-wrapper" id="gameWrapper">
+        <div class="header">
+            <h1>THE <span class="accent">BRICKS</span></h1>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-box">TOČKE: <span id="tocke">0</span></div>
+            <div class="stat-box">ČAS: <span id="cas">00:00</span></div>
+            <div class="stat-box">REKORD: <span id="bestScore">0</span></div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="600" height="400"></canvas>
+            
+            <div id="finishOverlay" class="overlay hidden">
+                <div class="content">
+                    <h2 id="finishTitle">ZMAGA!</h2>
+                    <p class="final-score">Dosežene točke: <span id="finalPoints">0</span></p>
+                    <button onclick="location.reload()" class="diff-btn-reload">IGRAJ PONOVNO</button>
+                </div>
+            </div>
+
+            <div id="menuOverlay" class="overlay">
+                <div class="content">
+                    <div class="main-buttons">
+                        <button class="info-btn" onclick="openModal('vizitkaModal')">VIZITKA</button>
+                        <button class="info-btn" onclick="openModal('navodilaModal')">NAVODILA</button>
+                    </div>
+                    <hr class="menu-divider">
+                    <h2 class="select-title">IZBERI TEŽAVNOST</h2>
+                    <div class="difficulty-options">
+                        <button class="diff-btn" data-level="1">1 - EASY</button>
+                        <button class="diff-btn" data-level="2">2 - MEDIUM</button>
+                        <button class="diff-btn" data-level="3">3 - HARD</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="vizitkaModal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="info-card">
+                        <h3>AVTOR PROJEKTA</h3>
+                        <p>Tilen Silič</p>
+                        <p>4. RAZRED</p>
+                    </div>
+                    <button class="close-btn" onclick="closeModal('vizitkaModal')">NAZAJ</button>
+                </div>
+            </div>
+
+            <div id="navodilaModal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="info-card">
+                        <h3>NAVODILA</h3>
+                        <p>Premikanje: <kbd>←</kbd> <kbd>→</kbd></p>
+                        <p>Pavza: <kbd>P</kbd></p>
+                        <p>Uniči vse opeke za zmago!</p>
+                    </div>
+                    <button class="close-btn" onclick="closeModal('navodilaModal')">NAZAJ</button>
+                </div>
+            </div>
+
+            <div id="pauseOverlay" class="overlay hidden">
+                <div class="content">
+                    <h2>PAVZA</h2>
+                    <p>Pritisni <kbd>P</kbd> za nadaljevanje</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameControls" class="bottom-controls hidden">
+            <button id="pauseBtn" class="control-btn">PAVZA (P)</button>
+            <button onclick="location.reload()" class="control-btn">RESET</button>
+        </div>
+    </div>
+
+    <script src="js/javascript.js"></script>
+</body>
+</html>
