@@ -39,7 +39,6 @@ body {
     background: rgba(0,0,0,0.3);
     padding: 12px 20px;
     border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
 }
 
 .canvas-container {
@@ -55,7 +54,6 @@ body {
 
 canvas { display: block; }
 
-/* CENTRIRANJE OVERLAYEV */
 .overlay, .modal {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -92,7 +90,6 @@ canvas { display: block; }
     padding: 12px; font-weight: bold; cursor: pointer; border: none;
     border-radius: 10px; background: var(--accent); color: #064e3b; font-size: 1rem;
 }
-.diff-btn:hover { background: #fde047; transform: translateY(-2px); }
 
 .diff-btn-reload {
     background: white; color: var(--bg); border: none; padding: 12px 30px;
@@ -106,9 +103,8 @@ canvas { display: block; }
 
 .close-btn { background: #334155; color: white; border: none; padding: 10px 30px; border-radius: 8px; cursor: pointer; }
 
-#finishTitle { font-size: 3.5rem; color: var(--accent); margin: 0; text-shadow: 2px 2px 0px #000; }
-.final-score { font-size: 1.2rem; color: #f1f5f9; margin-bottom: 10px; }
+#finishTitle { font-size: 3.5rem; color: var(--accent); margin: 0; }
 
 .bottom-controls { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
 .control-btn { background: #064e3b; border: 1px solid white; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-kbd { background: #1e293b; padding: 2px 5px; border-radius: 4px; font-family: monospace; }
+kbd { background: #1e293b; padding: 2px 5px; border-radius: 4px; }
