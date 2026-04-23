@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Bricks</title>
+    <title>The Bricks - Tilen Silič</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,7 +13,6 @@
     <div class="game-wrapper" id="gameWrapper">
         <div class="header">
             <h1>THE <span class="accent">BRICKS</span></h1>
-            <p class="subtitle">Nogomet</p>
         </div>
 
         <div class="stats-row">
@@ -27,7 +26,7 @@
             
             <div id="finishOverlay" class="overlay hidden">
                 <div class="content">
-                    <h2 id="finishTitle">GOOOOL!</h2>
+                    <h2 id="finishTitle">KONEC IGRE</h2>
                     <p class="final-score">Dosežene točke: <span id="finalPoints">0</span></p>
                     <button onclick="location.reload()" class="diff-btn-reload">IGRAJ PONOVNO</button>
                 </div>
@@ -68,8 +67,9 @@
                         <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0;">
                         <p><strong>TOČKOVANJE:</strong></p>
                         <ul style="list-style: none; padding: 0; text-align: left; display: inline-block;">
-                            <li><span style="color: #facc15;">●</span> Zlata oz Rumena barva: <strong>5 točk</strong></li>
-                            <li><span style="color: #3b82f6;">●</span> Ostale barve: <strong>1 točka</strong></li>
+                            <li><span style="color: #facc15;">●</span> Rumena barva: <strong>5 točk</strong></li>
+                            <li><span style="color: #ef4444;">●</span> Rdeča barva: <strong>3 točke</strong></li>
+                            <li><span style="color: #3b82f6;">●</span> Modra barva: <strong>1 točka</strong></li>
                         </ul>
                     </div>
                     <button class="close-btn" onclick="closeModal('navodilaModal')">NAZAJ</button>
