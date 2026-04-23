@@ -47,7 +47,10 @@ function init_bricks() {
     for (var i = 0; i < NROWS; i++) {
         bricks[i] = new Array(NCOLS);
         for (var j = 0; j < NCOLS; j++) {
-            bricks[i][j] = (Math.random() > 0.85) ? 2 : 1;
+            var rand = Math.random();
+            if (rand > 0.90) bricks[i][j] = 3;      
+            else if (rand > 0.65) bricks[i][j] = 2; 
+            else bricks[i][j] = 1;                  
         }
     }
 }
@@ -99,8 +102,11 @@ function update(dt) {
     var row = Math.floor(y / (BRICKHEIGHT + PADDING));
     var col = Math.floor(x / (BRICKWIDTH + PADDING));
     if (row < NROWS && row >= 0 && col < NCOLS && col >= 0 && bricks[row][col] > 0) {
+        var val = bricks[row][col];
         dy = -dy;
-        tocke += (bricks[row][col] === 2) ? 5 : 1;
+        if (val === 3) tocke += 5;
+        else if (val === 2) tocke += 3;
+        else tocke += 1;
         bricks[row][col] = 0;
         $("#tocke").html(tocke);
         
@@ -113,11 +119,13 @@ function update(dt) {
 function draw() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     
+    // Igrišče
     ctx.strokeStyle = "rgba(255,255,255,0.2)";
     ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(0, HEIGHT/2); ctx.lineTo(WIDTH, HEIGHT/2); ctx.stroke();
     ctx.beginPath(); ctx.arc(WIDTH/2, HEIGHT/2, 40, 0, Math.PI*2); ctx.stroke();
 
+    // Žoga
     ctx.save();
     ctx.translate(x, y);
     ctx.fillStyle = "#fff";
@@ -129,16 +137,19 @@ function draw() {
     }
     ctx.restore();
 
+    // Ploščad
     ctx.fillStyle = "#fff";
     ctx.fillRect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
-    ctx.strokeStyle = "rgba(0,0,0,0.2)";
-    for(var i=0; i<paddlew; i+=10) { ctx.strokeRect(paddlex + i, HEIGHT-paddleh, 1, paddleh); }
 
-    var colors = ["#ef4444", "#3b82f6", "#059669", "#a78bfa", "#ec4899"];
+    // Opeke (Dresi)
     for (var i = 0; i < NROWS; i++) {
         for (var j = 0; j < NCOLS; j++) {
             if (bricks[i][j] > 0) {
-                ctx.fillStyle = (bricks[i][j] === 2) ? "#facc15" : colors[i % colors.length];
+                var val = bricks[i][j];
+                if (val === 3) ctx.fillStyle = "#facc15";      
+                else if (val === 2) ctx.fillStyle = "#ef4444"; 
+                else ctx.fillStyle = "#3b82f6";                
+                
                 var bx = j * (BRICKWIDTH + PADDING) + PADDING/2;
                 var by = i * (BRICKHEIGHT + PADDING) + PADDING/2;
                 drawJersey(ctx, bx, by, BRICKWIDTH, BRICKHEIGHT);
