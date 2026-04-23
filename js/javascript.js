@@ -1,5 +1,5 @@
 var canvas, ctx, WIDTH, HEIGHT;
-var x, y, dx, dy, r = 8;
+var x, y, dx, dy, r = 10; 
 var paddlex, paddleh = 12, paddlew = 100;
 var rightDown = false, leftDown = false;
 var bricks, NROWS, NCOLS, BRICKWIDTH, BRICKHEIGHT, PADDING = 4;
@@ -16,7 +16,6 @@ function init() {
     ctx = canvas.getContext("2d");
     WIDTH = canvas.width;
     HEIGHT = canvas.height;
-    paddlex = WIDTH / 2 - paddlew / 2;
     
     var savedBest = localStorage.getItem("bestScore") || 0;
     $("#bestScore").html(savedBest);
@@ -34,8 +33,8 @@ function init() {
 
 function setupDifficulty(level) {
     if (level == 1) { baseSpeed = 220; paddlew = 140; NROWS = 3; }
-    else if (level == 2) { baseSpeed = 320; paddlew = 100; NROWS = 5; }
-    else { baseSpeed = 440; paddlew = 80; NROWS = 7; }
+    else if (level == 2) { baseSpeed = 320; paddlew = 110; NROWS = 5; }
+    else { baseSpeed = 440; paddlew = 85; NROWS = 7; }
     paddlex = WIDTH / 2 - paddlew / 2;
     init_bricks();
 }
@@ -48,7 +47,7 @@ function init_bricks() {
     for (var i = 0; i < NROWS; i++) {
         bricks[i] = new Array(NCOLS);
         for (var j = 0; j < NCOLS; j++) {
-            bricks[i][j] = (Math.random() > 0.9) ? 2 : 1;
+            bricks[i][j] = (Math.random() > 0.85) ? 2 : 1;
         }
     }
 }
@@ -72,34 +71,34 @@ function gameLoop(timestamp) {
     if (dt > 0.05) dt = 0.05;
 
     var steps = 3; 
-    for(var i=0; i<steps; i++) {
-        update(dt / steps);
-    }
+    for(var i=0; i<steps; i++) update(dt / steps);
     
     draw();
     if(start) requestAnimationFrame(gameLoop);
 }
 
 function update(dt) {
-    var paddleSpeed = 600;
+    var paddleSpeed = 650;
     if (rightDown && paddlex < WIDTH - paddlew) paddlex += paddleSpeed * dt;
     else if (leftDown && paddlex > 0) paddlex -= paddleSpeed * dt;
 
     x += dx * dt; y += dy * dt;
 
-    if (x + r > WIDTH) { dx = -Math.abs(dx); x = WIDTH - r; }
-    else if (x - r < 0) { dx = Math.abs(dx); x = r; }
-    if (y - r < 0) { dy = Math.abs(dy); y = r; } 
+    
+    if (x + r > WIDTH || x - r < 0) { dx = -dx; x = (x - r < 0) ? r : WIDTH - r; }
+    if (y - r < 0) { dy = -dy; y = r; } 
     else if (y + r > HEIGHT - paddleh) {
         if (x > paddlex && x < paddlex + paddlew) {
             var hitPos = (x - (paddlex + paddlew / 2)) / (paddlew / 2);
             dx = hitPos * baseSpeed * 1.5;
-            dy = -Math.abs(dy); y = HEIGHT - paddleh - r;
+            dy = -Math.abs(dy);
+            y = HEIGHT - paddleh - r;
         } else if (y + r > HEIGHT) {
             gameOver();
         }
     }
 
+    
     var row = Math.floor(y / (BRICKHEIGHT + PADDING));
     var col = Math.floor(x / (BRICKWIDTH + PADDING));
     if (row < NROWS && row >= 0 && col < NCOLS && col >= 0 && bricks[row][col] > 0) {
@@ -116,18 +115,54 @@ function update(dt) {
 
 function draw() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#38bdf8"; ctx.fillRect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
+    
+    
+    ctx.strokeStyle = "rgba(255,255,255,0.2)";
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, HEIGHT/2); ctx.lineTo(WIDTH, HEIGHT/2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(WIDTH/2, HEIGHT/2, 40, 0, Math.PI*2); ctx.stroke();
 
-    var colors = ["#f87171", "#fbbf24", "#4ade80", "#38bdf8", "#818cf8"];
+    
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#000";
+    for(var i=0; i<5; i++) {
+        ctx.rotate((Math.PI * 2) / 5);
+        ctx.fillRect(-2, -r+1, 4, 4);
+    }
+    ctx.restore();
+
+    
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(paddlex, HEIGHT - paddleh, paddlew, paddleh);
+    ctx.strokeStyle = "rgba(0,0,0,0.3)";
+    for(var i=0; i<paddlew; i+=10) {
+        ctx.strokeRect(paddlex + i, HEIGHT - paddleh, 1, paddleh);
+    }
+
+    
+    var colors = ["#f87171", "#60a5fa", "#fbbf24", "#a78bfa", "#f472b6"];
     for (var i = 0; i < NROWS; i++) {
         for (var j = 0; j < NCOLS; j++) {
             if (bricks[i][j] > 0) {
-                ctx.fillStyle = (bricks[i][j] == 2) ? "#fcd34d" : colors[i % colors.length];
-                ctx.fillRect(j * (BRICKWIDTH + PADDING) + PADDING/2, i * (BRICKHEIGHT + PADDING) + PADDING/2, BRICKWIDTH, BRICKHEIGHT);
+                ctx.fillStyle = (bricks[i][j] == 2) ? "#facc15" : colors[i % colors.length];
+                var bx = j * (BRICKWIDTH + PADDING) + PADDING/2;
+                var by = i * (BRICKHEIGHT + PADDING) + PADDING/2;
+                drawRoundedRect(ctx, bx, by, BRICKWIDTH, BRICKHEIGHT, 4);
             }
         }
     }
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r, y); ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h); ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r); ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.fill();
 }
 
 function updateTimer() {
@@ -154,7 +189,7 @@ function showFinishScreen(title) {
     $("#finishOverlay").fadeIn(400).removeClass('hidden');
 }
 
-function gameOver() { showFinishScreen("KONEC IGRE"); }
+function gameOver() { showFinishScreen("OUT!"); }
 
 $(document).keydown(function(e) {
     if (e.keyCode == 39) rightDown = true;
