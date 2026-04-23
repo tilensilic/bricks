@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Bricks - Tilen Silič</title>
+    <title>The Bricks</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -13,6 +13,7 @@
     <div class="game-wrapper" id="gameWrapper">
         <div class="header">
             <h1>THE <span class="accent">BRICKS</span></h1>
+            <p class="subtitle">Nogomet</p>
         </div>
 
         <div class="stats-row">
@@ -26,7 +27,7 @@
             
             <div id="finishOverlay" class="overlay hidden">
                 <div class="content">
-                    <h2 id="finishTitle">ZMAGA!</h2>
+                    <h2 id="finishTitle">GOOOOL!</h2>
                     <p class="final-score">Dosežene točke: <span id="finalPoints">0</span></p>
                     <button onclick="location.reload()" class="diff-btn-reload">IGRAJ PONOVNO</button>
                 </div>
@@ -41,9 +42,9 @@
                     <hr class="menu-divider">
                     <h2 class="select-title">IZBERI TEŽAVNOST</h2>
                     <div class="difficulty-options">
-                        <button class="diff-btn" data-level="1">1 - EASY</button>
-                        <button class="diff-btn" data-level="2">2 - MEDIUM</button>
-                        <button class="diff-btn" data-level="3">3 - HARD</button>
+                        <button class="diff-btn" data-level="1">Easy</button>
+                        <button class="diff-btn" data-level="2">Medium</button>
+                        <button class="diff-btn" data-level="3">Hard</button>
                     </div>
                 </div>
             </div>
@@ -65,7 +66,7 @@
                         <h3>NAVODILA</h3>
                         <p>Premikanje: <kbd>←</kbd> <kbd>→</kbd></p>
                         <p>Pavza: <kbd>P</kbd></p>
-                        <p>Uniči vse opeke za zmago!</p>
+                        <p>Zbij vse nasprotnike za zmago!</p>
                     </div>
                     <button class="close-btn" onclick="closeModal('navodilaModal')">NAZAJ</button>
                 </div>
